@@ -1,9 +1,7 @@
 class Siswa {
-  final String nama;
-  bool hadir;
+  final String name;
+  bool isPresent;
 
-  Siswa({
-    required this.nama,
-    this.hadir = false,
-  });
+  Siswa({required this.name, this.isPresent = false});
 }
+

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:kehadiran_siswa/provider/kehadiran_provider.dart';
 import 'package:provider/provider.dart';
-import './providers/kehadiran_provider.dart';
-import './views/home_screen.dart';
+import 'package:kehadiran_siswa/provider/kehadiran_provider.dart';
+import 'package:kehadiran_siswa/views/home_screen.dart';
 
 void main() => runApp(const AplikasiKehadiranSiswa());
 
