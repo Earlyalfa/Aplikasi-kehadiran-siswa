@@ -1,43 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/kehadiran_provider.dart';
-import '../models/siswa.dart';
 
 class KehadiranScreen extends StatelessWidget {
+  const KehadiranScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<KehadiranProvider>(context);
+    final daftarSiswa = provider.daftarSiswa;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Kehadiran Siswa')),
       body: Column(
         children: [
           Expanded(
             child: ListView.builder(
-              itemCount: provider.students.length,
-              itemBuilder: (ctx, index) {
-                Siswa siswa = provider.students[index];
+              itemCount: daftarSiswa.length,
+              itemBuilder: (context, index) {
+                final siswa = daftarSiswa[index];
                 return ListTile(
-                  title: Text(siswa.name),
+                  title: Text(siswa.nama),
                   trailing: Checkbox(
-                    value: siswa.isPresent,
+                    value: siswa.hadir,
                     onChanged: (value) {
-                      siswa.isPresent = value!;
-                      // Tidak perlu notifyListeners langsung, karena daftar dipegang oleh provider.
+                    siswa.hadir = value!;
+                    provider.notifyListeners();
                     },
                   ),
                 );
               },
             ),
           ),
-          ElevatedButton(
-            onPressed: provider.students.isEmpty ? null : provider.saveKehadiran,
-            child: const Text('Simpan Kehadiran'),
-          ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: daftarSiswa.isEmpty
+          ? null
+          : () {
+              provider.simpanKehadiran();
+            },
+        child: const Icon(Icons.save)
       ),
     );
   }
 }
-
-      

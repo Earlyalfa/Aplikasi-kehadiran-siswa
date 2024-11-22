@@ -1,36 +1,32 @@
 import 'package:flutter/foundation.dart';
 import '../models/siswa.dart';
-import '../models/kehadiran_siswa.dart';
 
 class KehadiranProvider with ChangeNotifier {
-  final List<Siswa> _students = [
-    Siswa(name: 'Ali'),
-    Siswa(name: 'Budi'),
-    Siswa(name: 'Citra'),
+  final List<Siswa> _daftarSiswa = [
+    Siswa(nama: 'Ali'),
+    Siswa(nama: 'Budi'),
+    Siswa(nama: 'Citra'),
   ];
 
-  final List<KehadiranSiswa> _history = [];
+  final List<Map<String, dynamic>> _riwayat = [];
 
-  List<Siswa> get students => _students;
+  List<Siswa> get daftarSiswa => _daftarSiswa;
 
-  List<KehadiranSiswa> get history => _history;
+  List<Map<String, dynamic>> get riwayat => _riwayat;
 
-  void saveKehadiran() {
-    int presentCount = _students.where((s) => s.isPresent).length;
-    int absentCount = _students.length - presentCount;
+  void simpanKehadiran() {
+    final jumlahHadir =
+      _daftarSiswa.where((siswa) => siswa.hadir).length;
+    final jumlahTidakHadir = _daftarSiswa.length - jumlahHadir;
 
-    _history.insert(
-      0,
-      KehadiranSiswa(
-        date: DateTime.now(),
-        presentCount: presentCount,
-        absentCount: absentCount,
-      ),
-    );
+    _riwayat.insert(0, {
+      'tanggal': DateTime.now(),
+      'hadir': jumlahHadir,
+      'tidakHadir': jumlahTidakHadir,
+    });
 
-    // Reset all checkboxes
-    for (var student in _students) {
-      student.isPresent = false;
+    for (var siswa in _daftarSiswa) {
+      siswa.hadir = false;
     }
 
     notifyListeners();
